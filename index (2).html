@@ -1,0 +1,661 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans, sans-serif); }
+
+.booklet-wrapper {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 8px 0 16px;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.tab-btn:hover { background: var(--color-background-tertiary); }
+.tab-btn.active {
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+  border-color: var(--color-border-info);
+}
+
+.side-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  padding-left: 2px;
+}
+
+.tri-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.panel {
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  background: var(--color-background-primary);
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header {
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.panel-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.panel-title {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.panel-body {
+  padding: 0 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+/* PANEL COLORS */
+.p-blue .panel-header { background: #E6F1FB; }
+.p-blue .panel-label { color: #185FA5; }
+.p-blue .panel-title { color: #0C447C; }
+
+.p-green .panel-header { background: #EAF3DE; }
+.p-green .panel-label { color: #3B6D11; }
+.p-green .panel-title { color: #27500A; }
+
+.p-amber .panel-header { background: #FAEEDA; }
+.p-amber .panel-label { color: #854F0B; }
+.p-amber .panel-title { color: #633806; }
+
+.p-red .panel-header { background: #FCEBEB; }
+.p-red .panel-label { color: #A32D2D; }
+.p-red .panel-title { color: #791F1F; }
+
+.p-teal .panel-header { background: #E1F5EE; }
+.p-teal .panel-label { color: #0F6E56; }
+.p-teal .panel-title { color: #085041; }
+
+.p-purple .panel-header { background: #EEEDFE; }
+.p-purple .panel-label { color: #534AB7; }
+.p-purple .panel-title { color: #3C3489; }
+
+/* CARDS */
+.info-card {
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--color-text-primary);
+  line-height: 1.55;
+}
+.info-card .card-title {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 99px;
+  margin-bottom: 5px;
+}
+.badge-blue { background: #B5D4F4; color: #0C447C; }
+.badge-green { background: #C0DD97; color: #27500A; }
+.badge-amber { background: #FAC775; color: #633806; }
+.badge-red { background: #F7C1C1; color: #791F1F; }
+.badge-teal { background: #9FE1CB; color: #085041; }
+
+/* COMPARE */
+.compare-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+.compare-bad {
+  background: #FCEBEB;
+  border-radius: var(--border-radius-md);
+  padding: 8px 10px;
+  font-size: 11px;
+  color: #791F1F;
+  border: 0.5px solid #F7C1C1;
+}
+.compare-good {
+  background: #EAF3DE;
+  border-radius: var(--border-radius-md);
+  padding: 8px 10px;
+  font-size: 11px;
+  color: #27500A;
+  border: 0.5px solid #C0DD97;
+}
+.compare-label {
+  font-size: 10px;
+  font-weight: 500;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* STEPS */
+.step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+.step-num {
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+  font-size: 10px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+/* FLOWCHART */
+.flow-box {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  padding: 7px 10px;
+  font-size: 11px;
+  text-align: center;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+.flow-arrow {
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-tertiary);
+  line-height: 1;
+  margin: 1px 0;
+}
+.flow-decision {
+  background: #FAEEDA;
+  border: 0.5px solid #FAC775;
+  border-radius: var(--border-radius-md);
+  padding: 7px 10px;
+  font-size: 11px;
+  text-align: center;
+  color: #633806;
+  font-weight: 500;
+}
+.flow-ok {
+  background: #EAF3DE;
+  border: 0.5px solid #C0DD97;
+  border-radius: var(--border-radius-md);
+  padding: 7px 10px;
+  font-size: 11px;
+  text-align: center;
+  color: #27500A;
+  font-weight: 500;
+}
+.flow-fail {
+  background: #FCEBEB;
+  border: 0.5px solid #F7C1C1;
+  border-radius: var(--border-radius-md);
+  padding: 7px 10px;
+  font-size: 11px;
+  text-align: center;
+  color: #791F1F;
+  font-weight: 500;
+}
+
+/* ICON ROW */
+.icon-label-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+.icon-circle {
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-top: 0px;
+}
+
+/* MINI TEST */
+.mini-test {
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+  padding: 10px 12px;
+  font-size: 12px;
+}
+.mini-test .q { font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary); }
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: var(--border-radius-md);
+  margin-bottom: 3px;
+  cursor: pointer;
+  font-size: 11px;
+  border: 0.5px solid var(--color-border-tertiary);
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  transition: background 0.15s;
+}
+.opt:hover { background: var(--color-background-tertiary); }
+.opt.correct { background: #EAF3DE; border-color: #C0DD97; color: #27500A; }
+.opt.wrong { background: #FCEBEB; border-color: #F7C1C1; color: #791F1F; }
+.opt.neutral { opacity: 0.55; }
+.timer-bar {
+  height: 4px;
+  background: var(--color-border-tertiary);
+  border-radius: 2px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.timer-fill {
+  height: 100%;
+  background: #378ADD;
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+.test-result {
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 6px;
+  display: none;
+}
+
+/* DIVIDER */
+.divider {
+  height: 0.5px;
+  background: var(--color-border-tertiary);
+  margin: 2px 0;
+}
+
+/* HOVER EXAMPLE */
+.hover-card {
+  position: relative;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  border: 0.5px solid var(--color-border-tertiary);
+  transition: border-color 0.15s;
+}
+.hover-card:hover { border-color: var(--color-border-secondary); }
+.hover-reveal {
+  display: none;
+  margin-top: 6px;
+  font-size: 11px;
+  padding: 6px 8px;
+  border-radius: var(--border-radius-md);
+}
+.hover-card:hover .hover-reveal { display: block; }
+.reveal-bad { background: #FCEBEB; color: #791F1F; }
+.reveal-good { background: #EAF3DE; color: #27500A; }
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .tri-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="booklet-wrapper">
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showSide('front')">Алдыңғы бет (Сыртқы)</button>
+    <button class="tab-btn" onclick="showSide('back')">Артқы бет (Ішкі)</button>
+  </div>
+
+  <!-- FRONT SIDE -->
+  <div id="side-front">
+    <div class="side-label">Алдыңғы бет — 3 панель</div>
+    <div class="tri-grid">
+
+      <!-- PANEL 1: COVER (right panel when folded) -->
+      <div class="panel p-blue">
+        <div class="panel-header">
+          <div class="panel-label">Мұқаба панелі</div>
+          <div class="panel-title">Тест тапсырмаларын жасаудағы логикалық қателіктер</div>
+        </div>
+        <div class="panel-body">
+          <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.6;">
+            6-сынып оқушыларына арналған оқу буклеті
+          </div>
+
+          <div class="info-card" style="background:#E6F1FB;border:0.5px solid #B5D4F4;">
+            <div class="card-title" style="color:#0C447C;">Буклет не үйретеді?</div>
+            <div style="color:#185FA5;font-size:11px;line-height:1.6;">
+              Тест сұрақтарын дұрыс құрастыруды, логикалық қателіктерді табуды және болдырмауды үйрету.
+            </div>
+          </div>
+
+          <!-- Big icon visual -->
+          <div style="text-align:center;padding:12px 0 6px;">
+            <svg width="90" height="90" viewBox="0 0 90 90">
+              <circle cx="45" cy="45" r="40" fill="#E6F1FB" stroke="#B5D4F4" stroke-width="1"/>
+              <text x="45" y="52" text-anchor="middle" font-size="34">📝</text>
+            </svg>
+          </div>
+
+          <div class="divider"></div>
+          <div style="font-size:11px;color:var(--color-text-tertiary);text-align:center;">
+            ✔ Дұрыс тест = Дұрыс нәтиже
+          </div>
+
+          <div style="background:#EAF3DE;border-radius:var(--border-radius-md);padding:8px 10px;font-size:11px;color:#27500A;border:0.5px solid #C0DD97;text-align:center;font-weight:500;">
+            5 негізгі бөлім · 8+ пункт
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 2: INTRO -->
+      <div class="panel p-green">
+        <div class="panel-header">
+          <div class="panel-label">1-бөлім · Кіріспе</div>
+          <div class="panel-title">Тест сұрағы дегеніміз не?</div>
+        </div>
+        <div class="panel-body">
+
+          <div class="info-card">
+            <div class="card-title">📌 Анықтама</div>
+            Тест — білімді тексеретін арнайы сұрақ. Дұрыс жасалған тест — нақты, түсінікті және БІР ғана дұрыс жауапты болуы керек.
+          </div>
+
+          <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-top:2px;">Жақсы тест сұрағының белгілері:</div>
+
+          <div class="icon-label-row">
+            <div class="icon-circle" style="background:#C0DD97;color:#27500A;">✔</div>
+            <div>Сұрақ нақты және түсінікті жазылған</div>
+          </div>
+          <div class="icon-label-row">
+            <div class="icon-circle" style="background:#C0DD97;color:#27500A;">✔</div>
+            <div>Тек БІР дұрыс жауап бар</div>
+          </div>
+          <div class="icon-label-row">
+            <div class="icon-circle" style="background:#C0DD97;color:#27500A;">✔</div>
+            <div>Жауаптар бір-біріне қайшы келмейді</div>
+          </div>
+          <div class="icon-label-row">
+            <div class="icon-circle" style="background:#C0DD97;color:#27500A;">✔</div>
+            <div>Тіл қарапайым, анық</div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="info-card" style="background:#FCEBEB;border:0.5px solid #F7C1C1;">
+            <div class="card-title" style="color:#791F1F;">⚠️ Жиі кездесетін мәселе</div>
+            <div style="color:#A32D2D;font-size:11px;">Оқушылар тест жасағанда жиі бірнеше дұрыс жауап немесе қайшылық қалдырады — бұл тестті дұрыс емес етеді.</div>
+          </div>
+
+          <div class="badge badge-green">Сенің мақсатың — мінсіз тест жасау!</div>
+        </div>
+      </div>
+
+      <!-- PANEL 3: ERROR TYPES -->
+      <div class="panel p-amber">
+        <div class="panel-header">
+          <div class="panel-label">2-бөлім · Қателер түрлері</div>
+          <div class="panel-title">Қандай қателіктер болады?</div>
+        </div>
+        <div class="panel-body">
+
+          <div class="badge badge-amber">⚠️ 4 негізгі қате түрі</div>
+
+          <div class="info-card" style="background:#FAEEDA;border:0.5px solid #FAC775;">
+            <div class="card-title" style="color:#633806;">1️⃣ Бірнеше дұрыс жауап</div>
+            <div style="color:#854F0B;font-size:11px;margin-top:3px;">Сұраққа бір емес, екі немесе үш жауап дұрыс болып шығады. Бұл оқушыны шатастырады.</div>
+          </div>
+
+          <div class="info-card" style="background:#FAEEDA;border:0.5px solid #FAC775;">
+            <div class="card-title" style="color:#633806;">2️⃣ Қайшылықты жауаптар</div>
+            <div style="color:#854F0B;font-size:11px;margin-top:3px;">Бір жауап екіншіні теріске шығарады — екеуі де дұрыс бола алмайды, бірақ екеуі де дұрыс емес.</div>
+          </div>
+
+          <div class="info-card" style="background:#FAEEDA;border:0.5px solid #FAC775;">
+            <div class="card-title" style="color:#633806;">3️⃣ Дұрыс жауап жоқ</div>
+            <div style="color:#854F0B;font-size:11px;margin-top:3px;">Барлық жауап қате болып шығады — оқушы ешқандай жауап бере алмайды.</div>
+          </div>
+
+          <div class="info-card" style="background:#FAEEDA;border:0.5px solid #FAC775;">
+            <div class="card-title" style="color:#633806;">4️⃣ Белгісіз/түсініксіз сұрақ</div>
+            <div style="color:#854F0B;font-size:11px;margin-top:3px;">Сұрақтың мағынасы екіұшты — әртүрлі оқушылар әртүрлі түсінеді.</div>
+          </div>
+
+          <!-- mini infographic -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:2px;">
+            <div style="background:#FAC775;border-radius:var(--border-radius-md);padding:6px 8px;text-align:center;font-size:10px;color:#633806;font-weight:500;">❌ Бірнеше дұрыс</div>
+            <div style="background:#FAC775;border-radius:var(--border-radius-md);padding:6px 8px;text-align:center;font-size:10px;color:#633806;font-weight:500;">❌ Қайшылық</div>
+            <div style="background:#FAC775;border-radius:var(--border-radius-md);padding:6px 8px;text-align:center;font-size:10px;color:#633806;font-weight:500;">❌ Жауапсыз</div>
+            <div style="background:#FAC775;border-radius:var(--border-radius-md);padding:6px 8px;text-align:center;font-size:10px;color:#633806;font-weight:500;">❌ Түсініксіз</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BACK SIDE -->
+  <div id="side-back" style="display:none;">
+    <div class="side-label">Артқы бет — 3 панель (ішкі)</div>
+    <div class="tri-grid">
+
+      <!-- PANEL 4: MAIN — LOGICAL ERRORS with interactive hover -->
+      <div class="panel p-red">
+        <div class="panel-header">
+          <div class="panel-label">3-бөлім · Негізгі бөлім</div>
+          <div class="panel-title">Логикалық қателіктер: дұрыс vs қате</div>
+        </div>
+        <div class="panel-body">
+
+          <div class="badge badge-red">📊 Мысалдармен салыстыру</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-top:-2px;">Картаға апарып, жауапты көр</div>
+
+          <!-- Example 1: multiple correct -->
+          <div class="hover-card">
+            <div style="font-size:10px;font-weight:500;color:#A32D2D;margin-bottom:3px;">1️⃣ Бірнеше дұрыс жауап</div>
+            <div style="font-size:11px;color:var(--color-text-primary);">«Сутегі қандай зат?»<br>А) Газ &nbsp; Б) Химиялық элемент &nbsp; В) Металл</div>
+            <div class="hover-reveal reveal-bad">❌ Қате: А және Б — екеуі де дұрыс!</div>
+          </div>
+
+          <div class="hover-card">
+            <div style="font-size:10px;font-weight:500;color:#27500A;margin-bottom:3px;">✔ Дұрысы</div>
+            <div style="font-size:11px;color:var(--color-text-primary);">«Сутегінің химиялық белгісі қайсы?»<br>А) O &nbsp; Б) H &nbsp; В) Na &nbsp; Г) Fe</div>
+            <div class="hover-reveal reveal-good">✔ Дұрыс: тек Б — H ғана дұрыс жауап!</div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Example 2: contradiction -->
+          <div class="hover-card">
+            <div style="font-size:10px;font-weight:500;color:#A32D2D;margin-bottom:3px;">2️⃣ Қайшылық мысалы</div>
+            <div style="font-size:11px;color:var(--color-text-primary);">«Су қай температурада қайнайды?»<br>А) 100°C &nbsp; Б) 100°C-тан жоғары &nbsp; В) 99°C</div>
+            <div class="hover-reveal reveal-bad">❌ Қате: А және Б қайшы — екеуі де дұрыс болуы мүмкін!</div>
+          </div>
+
+          <div class="hover-card">
+            <div style="font-size:10px;font-weight:500;color:#27500A;margin-bottom:3px;">✔ Дұрысы</div>
+            <div style="font-size:11px;color:var(--color-text-primary);">«Стандарт қысымда су қай температурада қайнайды?»<br>А) 50°C &nbsp; Б) 75°C &nbsp; В) 100°C &nbsp; Г) 120°C</div>
+            <div class="hover-reveal reveal-good">✔ Дұрыс: тек В — 100°C нақты жауап!</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PANEL 5: HOW TO AVOID + FLOWCHART -->
+      <div class="panel p-teal">
+        <div class="panel-header">
+          <div class="panel-label">4-бөлім · Болдырмау жолдары</div>
+          <div class="panel-title">Логикалық тексеру схемасы</div>
+        </div>
+        <div class="panel-body">
+
+          <div class="badge badge-teal">📊 Қадамдық схема</div>
+
+          <!-- Flowchart -->
+          <div class="flow-box" style="background:#E1F5EE;border-color:#9FE1CB;color:#085041;">📝 Сұрақты жаздым</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-decision">❓ Бірнеше дұрыс жауап бар ма?</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:1px 0;">
+            <div class="flow-fail" style="font-size:10px;">Иә → Сұрақты нақтылап жаз</div>
+            <div class="flow-ok" style="font-size:10px;">Жоқ → Жалғастыр</div>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-decision">❓ Жауаптар қайшы ма?</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:1px 0;">
+            <div class="flow-fail" style="font-size:10px;">Иә → Жауаптарды өзгерт</div>
+            <div class="flow-ok" style="font-size:10px;">Жоқ → Жалғастыр</div>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-decision">❓ Сұрақ түсінікті ме?</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:1px 0;">
+            <div class="flow-fail" style="font-size:10px;">Жоқ → Қайта жаз</div>
+            <div class="flow-ok" style="font-size:10px;">Иә → Жалғастыр</div>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-ok" style="font-size:12px;">✔ Тест дайын!</div>
+
+        </div>
+      </div>
+
+      <!-- PANEL 6: CONCLUSION + MINI-TEST -->
+      <div class="panel p-purple">
+        <div class="panel-header">
+          <div class="panel-label">5-бөлім · Қорытынды</div>
+          <div class="panel-title">Білімді тексер: мини-тест</div>
+        </div>
+        <div class="panel-body">
+
+          <div class="info-card" style="background:#EEEDFE;border:0.5px solid #CECBF6;">
+            <div class="card-title" style="color:#3C3489;">✨ Есте сақта!</div>
+            <div style="color:#534AB7;font-size:11px;line-height:1.6;">
+              <div class="step-row" style="margin-bottom:4px;"><div class="step-num" style="background:#CECBF6;color:#3C3489;">1</div><div>Әр сұрақта тек БІР дұрыс жауап болсын</div></div>
+              <div class="step-row" style="margin-bottom:4px;"><div class="step-num" style="background:#CECBF6;color:#3C3489;">2</div><div>Жауаптар бір-біріне қайшы келмесін</div></div>
+              <div class="step-row" style="margin-bottom:4px;"><div class="step-num" style="background:#CECBF6;color:#3C3489;">3</div><div>Сұрақты жазғаннан кейін тексер</div></div>
+              <div class="step-row"><div class="step-num" style="background:#CECBF6;color:#3C3489;">4</div><div>Нақты тіл қолдан</div></div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- MINI TEST -->
+          <div class="mini-test">
+            <div class="q">❓ Мына тест сұрағында қате бар ма?<br><span style="font-weight:400;color:var(--color-text-secondary);">«Ең үлкен планета қайсы?»<br>А) Юпитер &nbsp; Б) Ең үлкен &nbsp; В) Сатурн &nbsp; Г) Нептун</span></div>
+            <div class="timer-bar"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
+            <div id="opt-a" class="opt" onclick="checkAnswer('a')"><span>А</span> Юпитер</div>
+            <div id="opt-b" class="opt" onclick="checkAnswer('b')"><span>Б</span> Ең үлкен — бұл жауап өзі қате!</div>
+            <div id="opt-c" class="opt" onclick="checkAnswer('c')"><span>В</span> Қате жоқ, сұрақ дұрыс</div>
+            <div class="test-result" id="test-result"></div>
+          </div>
+
+          <div style="font-size:11px;color:var(--color-text-tertiary);text-align:center;margin-top:2px;">
+            Картаны апарып жауапты таба аласың ↑
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showSide(side) {
+  document.getElementById('side-front').style.display = side === 'front' ? '' : 'none';
+  document.getElementById('side-back').style.display = side === 'back' ? '' : 'none';
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', (i === 0 && side === 'front') || (i === 1 && side === 'back'));
+  });
+  if (side === 'back') startTimer();
+}
+
+let timerInterval = null;
+let timerStarted = false;
+
+function startTimer() {
+  if (timerStarted) return;
+  timerStarted = true;
+  const fill = document.getElementById('timer-fill');
+  if (!fill) return;
+  let w = 100;
+  timerInterval = setInterval(() => {
+    w -= 100 / 150;
+    if (w <= 0) { w = 0; clearInterval(timerInterval); }
+    fill.style.width = Math.round(w) + '%';
+  }, 100);
+}
+
+function checkAnswer(choice) {
+  clearInterval(timerInterval);
+  const correct = 'b';
+  const opts = { a: 'opt-a', b: 'opt-b', c: 'opt-c' };
+  Object.keys(opts).forEach(k => {
+    const el = document.getElementById(opts[k]);
+    el.classList.remove('correct', 'wrong', 'neutral');
+    if (k === correct) el.classList.add('correct');
+    else if (k === choice && k !== correct) el.classList.add('wrong');
+    else el.classList.add('neutral');
+    el.onclick = null;
+  });
+  const res = document.getElementById('test-result');
+  res.style.display = 'block';
+  if (choice === correct) {
+    res.style.color = '#27500A';
+    res.textContent = '✔ Дұрыс! «Б» жауабы — тест сұрағындағы логикалық қате: «Ең үлкен» деген жауап мағынасыз.';
+  } else {
+    res.style.color = '#791F1F';
+    res.textContent = '❌ Қате! «Б» жауабы дұрыс — «Ең үлкен» деген жауап логикалық қате.';
+  }
+}
+</script>
